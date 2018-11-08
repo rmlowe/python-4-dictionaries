@@ -1,5 +1,14 @@
-class Sample():
-    pass
+class Circle():
+    pi = 3.14
+    def __init__(self,radius=1):
+        self.radius = radius
 
-x = Sample()
-print(type(x))
+    def area(self):
+        return self.radius*self.radius * Circle.pi
+
+    def set_radius(self,new_r):
+        self.radius = new_r
+
+
+myc = Circle(3)
+print(myc.area())

@@ -1,163 +1,64 @@
-#####################################
-#### PART 9: FUNCTION EXERCISES #####
-#####################################
+###########################
+## PART 10: Simple Game ###
+### --- CODEBREAKER --- ###
+## --Nope--Close--Match--  ##
+###########################
 
+# It's time to actually make a simple command line game so put together everything
+# you've learned so far about Python. The game goes like this:
 
-# Complete the tasks below by writing functions! Keep in mind, these can be
-# really tough, its all about breaking the problem down into smaller, logical
-# steps. If you get stuck, don't feel bad about having to peek to the solutions!
-
-#####################
-## -- PROBLEM 1 -- ##
-#####################
-
-# Given a list of integers, return True if the sequence of numbers 1, 2, 3
-# appears in the list somewhere.
-
-# For example:
-
-# arrayCheck([1, 1, 2, 3, 1]) → True
-# arrayCheck([1, 1, 2, 4, 1]) → False
-# arrayCheck([1, 1, 2, 1, 2, 3]) → True
-
-def arrayCheck(nums):
-    for i in range(len(nums) - 2):
-        if nums[i] == 1 and nums[i + 1] == 2 and nums[i + 2] == 3:
-            return True
-
-    return False
-
-print(arrayCheck([1, 1, 2, 3, 1]))
-print(arrayCheck([1, 1, 2, 4, 1]))
-print(arrayCheck([1, 1, 2, 1, 2, 3]))
-
-
-#####################
-## -- PROBLEM 2 -- ##
-#####################
-
-# Given a string, return a new string made of every other character starting
-# with the first, so "Hello" yields "Hlo".
-
-# For example:
-
-# stringBits('Hello') → 'Hlo'
-# stringBits('Hi') → 'H'
-# stringBits('Heeololeo') → 'Hello'
-
-def stringBits(str):
-    return str[::2]
-
-print(stringBits('Hello'))
-print(stringBits('Hi'))
-print(stringBits('Heeololeo'))
-
-
-#####################
-## -- PROBLEM 3 -- ##
-#####################
-
-# Given two strings, return True if either of the strings appears at the very end
-# of the other string, ignoring upper/lower case differences (in other words, the
-# computation should not be "case sensitive").
+# 1. The computer will think of 3 digit number that has no repeating digits.
+# 2. You will then guess a 3 digit number
+# 3. The computer will then give back clues, the possible clues are:
 #
-# Note: s.lower() returns the lowercase version of a string.
+#     Close: You've guessed a correct number but in the wrong position
+#     Match: You've guessed a correct number in the correct position
+#     Nope: You haven't guess any of the numbers correctly
 #
-# Examples:
-#
-# end_other('Hiabc', 'abc') → True
-# end_other('AbC', 'HiaBc') → True
-# end_other('abc', 'abXabc') → True
+# 4. Based on these clues you will guess again until you break the code with a
+#    perfect match!
 
+# There are a few things you will have to discover for yourself for this game!
+# Here are some useful hints:
 
-def end_other(a, b):
-    lowerA = a.lower()
-    lowerB = b.lower()
+# Try to figure out what this code is doing and how it might be useful to you
+import random
+digits = list(range(10))
+random.shuffle(digits)
+code = digits[:3]
+print("Welcome Code Breaker! Let's see if you can guess my 3 digit number!")
+print("Code has been generated, please guess a 3 digit number")
 
-    if len(a) >= len(b):
-        return lowerA[len(a) - len(b):] == lowerB
-    else:
-        return lowerB[len(b) - len(a):] == lowerA
+def readGuess():
+    s = input("What is your guess? ")
+    return [int(s[0]), int(s[1]), int(s[2])]
 
-print(end_other('Hiabc', 'abc'))
-print(end_other('AbC', 'HiaBc'))
-print(end_other('abc', 'abXabc'))
-print(end_other('hello', 'goodbye'))
+guess = readGuess()
+while (guess != code):
+    matchCount = 0
+    if guess[0] == code[0]:
+        matchCount += 1
+    if guess[1] == code[1]:
+        matchCount += 1
+    if guess[2] == code[2]:
+        matchCount += 1
+    closeCount = 0
+    if guess[0] in code:
+        closeCount += 1
+    if guess[1] in code:
+        closeCount += 1
+    if guess[2] in code:
+        closeCount += 1
+    closeCount -= matchCount
+    print("Here is the result of your guess:")
+    for i in range(matchCount):
+        print("Match")
+    for i in range(closeCount):
+        print("Close")
+    if matchCount == 0 and closeCount == 0:
+        print("Nope")
 
-#####################
-## -- PROBLEM 4 -- ##
-#####################
+    guess = readGuess()
 
-# Given a string, return a string where for every char in the original,
-# there are two chars.
-
-# doubleChar('The') → 'TThhee'
-# doubleChar('AAbb') → 'AAAAbbbb'
-# doubleChar('Hi-There') → 'HHii--TThheerree'
-
-def doubleChar(str):
-    result = ''
-    for c in str:
-        result = result + c + c
-
-    return result
-
-print(doubleChar('The'))
-print(doubleChar('AAbb'))
-print(doubleChar('Hi-There'))
-
-
-#####################
-## -- PROBLEM 5 -- ##
-#####################
-
-# Read this problem statement carefully!
-
-# Given 3 int values, a b c, return their sum. However, if any of the values is a
-# teen -- in the range 13-19 inclusive -- then that value counts as 0, except 15
-# and 16 do not count as a teens. Write a separate helper "def fix_teen(n):"that
-# takes in an int value and returns that value fixed for the teen rule.
-#
-# In this way, you avoid repeating the teen code 3 times (i.e. "decomposition").
-# Define the helper below and at the same indent level as the main no_teen_sum().
-# Again, you will have two functions for this problem!
-#
-# Examples:
-#
-# no_teen_sum(1, 2, 3) → 6
-# no_teen_sum(2, 13, 1) → 3
-# no_teen_sum(2, 1, 14) → 3
-
-def no_teen_sum(a, b, c):
-    return fix_teen(a) + fix_teen(b) + fix_teen(c)
-def fix_teen(n):
-    if n in range(13, 20) and n != 15 and n !=16:
-        return 0
-    else:
-        return n
-
-print(no_teen_sum(1, 2, 3))
-print(no_teen_sum(2, 13, 1))
-print(no_teen_sum(2, 1, 14))
-print(no_teen_sum(2, 1, 15))
-print(no_teen_sum(2, 1, 19))
-print(no_teen_sum(2, 1, 20))
-
-#####################
-## -- PROBLEM 6 -- ##
-#####################
-
-# Return the number of even integers in the given array.
-#
-# Examples:
-#
-# count_evens([2, 1, 2, 3, 4]) → 3
-# count_evens([2, 2, 0]) → 3
-# count_evens([1, 3, 5]) → 0
-
-def count_evens(nums):
-    return len(list(filter(lambda n: n % 2 == 0, nums)))
-
-print(count_evens([2, 1, 2, 3, 4]))
-print(count_evens([2, 2, 0]))
-print(count_evens([1, 3, 5]))
+# Think about how you will compare the input to the random number, what format
+# should they be in? Maybe some sort of sequence? Watch the Lecture video for more hints!

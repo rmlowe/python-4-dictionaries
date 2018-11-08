@@ -1,14 +1,20 @@
-class Circle():
-    pi = 3.14
-    def __init__(self,radius=1):
-        self.radius = radius
+# SPECIAL METHODS
+class Book():
 
-    def area(self):
-        return self.radius*self.radius * Circle.pi
+    def __init__(self,title,author,pages):
+        self.title = title
+        self.author = author
+        self.pages = pages
 
-    def set_radius(self,new_r):
-        self.radius = new_r
+    def __str__(self):
+        return "Title: {}, Author: {}, Pages: {}".format(self.title,self.author,self.pages)
+
+    def __len__(self):
+        return self.pages
+
+    def __del__(self):
+        print("a book is destroyed")
 
 
-myc = Circle(3)
-print(myc.area())
+b = Book("Python","jose",200)
+del b

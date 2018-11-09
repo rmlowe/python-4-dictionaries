@@ -1,7 +1,15 @@
-try:
-    f = open('simple.txt','r')
-    f.write("Test write to simple text!"
-except:
-    print("ERROR: COULD NOT FIND FILE OR READ DATA!")
-finally:
-    print("I ALWAYS WORK NO MATTER WHAT!")
+import re
+
+def multi_re_find(patterns,phrase):
+
+    for pat in patterns:
+        print("Searching for pattern {}".format(pat))
+        print(re.findall(pat,phrase))
+        print('\n')
+
+
+test_phrase = 'This is a string with numbers 12312 and a symbol #hashtag'
+
+test_patterns = [r'\W+']
+
+multi_re_find(test_patterns,test_phrase)

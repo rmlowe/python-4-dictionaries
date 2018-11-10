@@ -1,15 +1,17 @@
-import re
+def new_decorator(func):
 
-def multi_re_find(patterns,phrase):
+    def wrap_func():
+        print("CODE HERE BEFORE EXECUTING FUNC")
+        func()
+        print("FUNC() HAS BEEN CALLED")
 
-    for pat in patterns:
-        print("Searching for pattern {}".format(pat))
-        print(re.findall(pat,phrase))
-        print('\n')
+    return wrap_func
 
 
-test_phrase = 'This is a string with numbers 12312 and a symbol #hashtag'
 
-test_patterns = [r'\W+']
+@new_decorator
+def func_needs_decorator():
+    print("THIS FUNCTION IS IN NEED OF A DECORATOR!")
 
-multi_re_find(test_patterns,test_phrase)
+# func_needs_decorator = new_decorator(func_needs_decorator)
+func_needs_decorator()
